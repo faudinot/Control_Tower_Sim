@@ -8,7 +8,10 @@ SOURCES += main.cpp \
     PlaneCommercial.cpp \
     ControlTower.cpp \
     PlaneProducer.cpp \
-    PlaneContainer.cpp
+    PlaneContainer.cpp \
+    Runway.cpp \
+    PlaneCargo.cpp \
+    Writer.cpp
 
 HEADERS += \
     PlaneAbstract.h \
@@ -16,6 +19,9 @@ HEADERS += \
     PlaneCommercial.h \
     ControlTower.h \
     PlaneProducer.h \
-    PlaneContainer.h
+    PlaneContainer.h \
+    Runway.h \
+    PlaneCargo.h \
+    Writer.h
 
 LIBS += -pthread
