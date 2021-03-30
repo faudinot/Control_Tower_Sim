@@ -4,21 +4,22 @@
 //#include <queue>
 #include <list>
 
-#include <PlaneAbstract.h>
+#include "PlaneAbstract.h"
+#include "utils.h"
 
 class PlaneContainer
 {
 public:
-    PlaneContainer(const int max_planes=MAX_PLANES);
+    PlaneContainer();
     ~PlaneContainer();
 
     void addPlane(PlaneAbstract* plane);
     PlaneAbstract* getNextPlane();
     bool isEmpty();
+    int size();
 
 private:
     std::list<PlaneAbstract*> _container;
-    int _max_planes;
 
     void fillIfNeeded();
 };

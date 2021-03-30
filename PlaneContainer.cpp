@@ -1,16 +1,15 @@
 #include "PlaneContainer.h"
 
-PlaneContainer::PlaneContainer(const int max_planes)
+PlaneContainer::PlaneContainer()
 {
-    _max_planes = max_planes;
 }
 
 PlaneContainer::~PlaneContainer()
 {
-    while(_container.size()!= 0)
-    {
-
-    }
+   for(auto elem : _container)
+   {
+       delete elem;
+   }
 }
 
 void PlaneContainer::addPlane(PlaneAbstract* plane)
@@ -31,6 +30,11 @@ PlaneAbstract* PlaneContainer::getNextPlane()
 bool PlaneContainer::isEmpty()
 {
     return _container.empty();
+}
+
+int PlaneContainer::size()
+{
+    return _container.size();
 }
 
 
