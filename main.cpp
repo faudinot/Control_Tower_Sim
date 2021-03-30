@@ -1,45 +1,50 @@
-#include <iostream>
 #include <thread>
 #include <vector>
+#include <functional>
 
-#include <ControlTower.h>
 
-class PlaneAbstract;
+#include "ControlTower.h"
+#include "Runway.h"
+#include "PlaneProducer.h"
 
-void processPlane(PlaneAbstract* plane);
 
 int main()
 {
-    ControlTower my_watch_tower;
+    Writer my_writer;
+    ControlTower my_watch_tower(my_writer);
 
-    std::vector<std::thread> my_runways;
-
-    std::thread runway_0 {processPlane, my_watch_tower.getPlane()};
-    std::thread runway_1 {processPlane, my_watch_tower.getPlane()};
-
-    my_runways.push_back(std::move(runway_0));
-    my_runways.push_back(std::move(runway_1));
-
-//    for(int i=0 ; i < 10 ; ++i)
-//    {
-//        my_watch_tower.run();
-//    }
-
-    for(std::thread& runway : my_runways)
+    try
     {
-        if(runway.joinable())
+        std::thread producer { PlaneProducer(), std::ref(my_watch_tower), std::ref(my_writer) };
+
+        std::vector<std::thread> my_runways;
+        std::thread runway_0 { Runway(), std::ref(my_watch_tower), std::ref(my_writer) };
+        std::thread runway_1 { Runway(), std::ref(my_watch_tower), std::ref(my_writer) };
+        std::thread runway_2 { Runway(), std::ref(my_watch_tower), std::ref(my_writer) };
+
+        my_runways.push_back(std::move(runway_0));
+        my_runways.push_back(std::move(runway_1));
+        my_runways.push_back(std::move(runway_2));
+
+        for(std::thread& runway : my_runways)
         {
-            runway.join();
+            if(runway.joinable())
+            {
+                runway.join();
+            }
         }
+
+        if(producer.joinable())
+        {
+            producer.join();
+        }
+
+    }
+    catch(std::exception& e)
+    {
+        my_writer.writeMessageOnCout("Exception");
+        my_writer.writeMessageOnCout(e.what());
     }
 
-
     return 0;
-}
-
-
-
-void processPlane(PlaneAbstract *plane)
-{
-    plane->display();
 }
