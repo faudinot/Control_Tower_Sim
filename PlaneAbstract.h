@@ -2,20 +2,21 @@
 #define PLANEABSTRACT_H
 
 #include <string>
-#include <utils.h>
+#include <chrono>
 
 
 class PlaneAbstract
 {
 public:
-    PlaneAbstract(const std::string& name);
-    ~PlaneAbstract();
+    PlaneAbstract();
+    virtual ~PlaneAbstract();
 
-    void display();
+    virtual std::string getInfo();
 
-private:
+    virtual std::chrono::milliseconds getTimeToWait() = 0;
+
+protected:
     std::string _name;
-    Type_Plane _type;
 };
 
 #endif // PLANEABSTRACT_H

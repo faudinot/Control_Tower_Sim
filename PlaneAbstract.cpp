@@ -1,18 +1,17 @@
 #include "PlaneAbstract.h"
 
-#include <iostream>
-
-PlaneAbstract::PlaneAbstract(const std::string &name)
+PlaneAbstract::PlaneAbstract()
 {
-    _name = name;
+
 }
 
 PlaneAbstract::~PlaneAbstract()
 {
-//    std::cout << "----- Destructor : PlaneAbstract" << std::endl;
+
 }
 
-void PlaneAbstract::display()
+std::string PlaneAbstract::getInfo()
 {
-    std::cout << _name << std::endl;
+    return _name;
 }
+
