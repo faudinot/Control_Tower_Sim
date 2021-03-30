@@ -1,40 +1,43 @@
 #include "ControlTower.h"
 
-ControlTower::ControlTower()
+#include "utils.h"
+
+ControlTower::ControlTower(Writer& writer) : _writer(writer)
 {
     _count = 0;
-    _can_continue = true;
 }
 
-void ControlTower::run()
-{
-    auto plane = _producer.createPlane();
-    ++_count;
-
-    plane->display();
-
-    delete plane;
-}
 
 PlaneAbstract *ControlTower::getPlane()
 {
-    fillIfNeeded();
+    std::unique_lock<std::mutex> lock{_mutex};
+
+    _condition.wait(lock, [this]{return containerHasValues();} );
 
     return _container.getNextPlane();
 }
 
-void ControlTower::fillIfNeeded()
+void ControlTower::addPlane(PlaneAbstract *plane)
 {
-    if(_container.isEmpty() && isMaxCountReached() == false)
-    {
-        _container.addPlane(_producer.createPlane());
-    }
+    std::unique_lock<std::mutex> lock {_mutex};
+
+    _container.addPlane(plane);
+
+    _condition.notify_one();
+}
+
+bool ControlTower::containerHasValues()
+{
+    return !_container.isEmpty();
+}
+
+bool ControlTower::containerIsEmpty()
+{
+    return _container.isEmpty();
 }
 
 bool ControlTower::isMaxCountReached()
 {
-    // ternaire ?
-
     bool res {false};
 
     if(_count > MAX_PLANES)
@@ -45,10 +48,3 @@ bool ControlTower::isMaxCountReached()
     return res;
 }
 
-void ControlTower::isRunCanContinue()
-{
-    if(_container.isEmpty() && isMaxCountReached())
-    {
-        _can_continue = false;
-    }
-}

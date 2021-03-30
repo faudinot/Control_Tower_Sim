@@ -1,29 +1,33 @@
 #ifndef CONTROLTOWER_H
 #define CONTROLTOWER_H
 
-#include <PlaneProducer.h>
-#include <PlaneContainer.h>
+#include <mutex>
+#include <condition_variable>
+
+#include "PlaneContainer.h"
+#include "Writer.h"
 
 class PlaneAbstract;
 
 class ControlTower
 {
 public:
-    ControlTower();
-
-    void run();
+    ControlTower(Writer& writer);
 
     PlaneAbstract* getPlane();
+    void addPlane(PlaneAbstract* plane);
+    bool containerIsEmpty();
+    bool containerHasValues();
 
 private:
-    bool _can_continue;
     unsigned int _count;
-    PlaneProducer _producer;
+    std::mutex _mutex;
+    std::condition_variable _condition;
     PlaneContainer _container;
+    Writer& _writer;
 
-    void fillIfNeeded();
     bool isMaxCountReached();
-    void isRunCanContinue();
+
 };
 
 #endif // CONTROLTOWER_H
