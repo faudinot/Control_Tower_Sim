@@ -3,18 +3,23 @@
 
 #include <string>
 
-#include <PlaneAbstract.h>
+#include "PlaneAbstract.h"
+#include "utils.h"
+
+class ControlTower;
+class Writer;
 
 class PlaneProducer
 {
 public:
     PlaneProducer();
 
-    PlaneAbstract* createPlane();
+    void operator()(ControlTower& control_tower, Writer& writer);
 
 private:
     unsigned int _count;
 
+    PlaneAbstract* createPlane();
     std::string createName();
 };
 
