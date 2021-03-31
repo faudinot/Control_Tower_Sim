@@ -22,23 +22,21 @@ void Runway::operator()(ControlTower& control_tower, Writer& writer)
 
         if(plane)
         {
-            writer.writeMessageOnCout(plane->getInfo());
+            std::stringstream sstring;
+            sstring << _id  << " is processing :\t" << plane->getInfo();
+            writer.writeMessageOnCout(sstring.str());
 
             std::this_thread::sleep_for(plane->getTimeToWait());
 
-            if(plane)
-            {
-                delete plane;
-                ++_plane_consumed;
-
-                std::stringstream sstring;
-                sstring << "Runway " << std::this_thread::get_id()  << " consumed " << _plane_consumed << " planes.";
-                writer.writeMessageOnCout(sstring.str());
-            }
-            else
-            {
-                writer.writeMessageOnCout("Error");
-            }
+            _planes_info.push_back(plane->getInfo());
+            delete plane;
+            ++_plane_consumed;
+        }
+        else
+        {
+            writer.writeMessageOnCout("Error");
+        }
+    }
 
     if(control_tower.continueToRun() == false)
     {

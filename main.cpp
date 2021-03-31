@@ -30,12 +30,14 @@ int main()
         {
             if(runway.joinable())
             {
+//                my_writer.writeMessageOnCout("Runway join()");
                 runway.join();
             }
         }
 
         if(producer.joinable())
         {
+//            my_writer.writeMessageOnCout("Producer join()");
             producer.join();
         }
 
