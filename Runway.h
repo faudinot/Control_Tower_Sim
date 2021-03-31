@@ -1,6 +1,9 @@
 #ifndef RUNWAY_H
 #define RUNWAY_H
 
+#include <string>
+#include <vector>
+
 class ControlTower;
 class Writer;
 
@@ -13,6 +16,10 @@ public:
 
 private:
     unsigned int _plane_consumed;
+    std::string _id;
+    std::vector<std::string> _planes_info;
+
+    void setId();
 };
 
 #endif // RUNWAY_H

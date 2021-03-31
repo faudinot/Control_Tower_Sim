@@ -14,7 +14,9 @@ Runway::Runway()
 
 void Runway::operator()(ControlTower& control_tower, Writer& writer)
 {
-    while(true)
+   setId();
+
+    while(control_tower.continueToRun())
     {
         auto plane = control_tower.getPlane();
 
@@ -38,6 +40,25 @@ void Runway::operator()(ControlTower& control_tower, Writer& writer)
                 writer.writeMessageOnCout("Error");
             }
 
+    if(control_tower.continueToRun() == false)
+    {
+        std::stringstream sstring;
+        sstring << "\n----- " << _id  << " is closed. -----\n";
+        sstring << _id << " processed " << _plane_consumed << " planes.";
+        for(auto info : _planes_info)
+        {
+            sstring << "\n\t" << info;
         }
+        sstring << "\n";
+        writer.writeMessageOnCout(sstring.str());
     }
+}
+
+// --------- PRIVATE ---------
+
+void Runway::setId()
+{
+    std::stringstream sstring;
+    sstring << "Runway " << std::this_thread::get_id();
+    _id = sstring.str();
 }
