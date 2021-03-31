@@ -7,7 +7,6 @@
 #include "Writer.h"
 #include "PlaneCommercial.h"
 #include "PlaneCargo.h"
-//#include "utils.h"
 
 
 PlaneProducer::PlaneProducer()
@@ -17,6 +16,8 @@ PlaneProducer::PlaneProducer()
 
 void PlaneProducer::operator()(ControlTower& control_tower, Writer& writer)
 {
+    setId();
+
     while(_count < MAX_PLANES)
     {
         auto _plane = createPlane();
@@ -25,24 +26,27 @@ void PlaneProducer::operator()(ControlTower& control_tower, Writer& writer)
         {
             control_tower.addPlane(_plane);
 
-            writer.writeMessageOnCout(_plane->getInfo());
+            std::stringstream sstring;
+            sstring << _id << " creates : " << _plane->getInfo();
+            writer.writeMessageOnCout(sstring.str());
         }
 
         RandomGeneratorInt randomInt{500, 999};
         const int time_to_wait = randomInt();
 
         std::stringstream sstring;
-        sstring << "Time to wait : " << time_to_wait << "\tCount : " << _count;
+        sstring << _id << " time to wait : " << time_to_wait << "\tCount : " << _count;
         writer.writeMessageOnCout(sstring.str());
 
         std::this_thread::sleep_for(std::chrono::milliseconds(time_to_wait));
-
-        ++_count;
     }
 
     if(_count >= MAX_PLANES)
     {
-        writer.writeMessageOnCout("Producer stop to produce.");
+        control_tower.producerStopProduction();
+        std::stringstream sstring;
+        sstring << "\n----- " << _id  << " stop to produce. -----\n";
+        writer.writeMessageOnCout(sstring.str());
     }
 
 }
@@ -73,6 +77,8 @@ PlaneAbstract *PlaneProducer::createPlane()
         break;
     }
 
+    ++_count;
+
     return ptr_plane;
 }
 
@@ -90,6 +96,13 @@ std::string PlaneProducer::createName()
     name.append(std::to_string(id));
 
     return name;
+}
+
+void PlaneProducer::setId()
+{
+    std::stringstream sstring;
+    sstring << "Producer " << std::this_thread::get_id();
+    _id = sstring.str();
 }
 
 

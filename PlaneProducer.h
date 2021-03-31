@@ -18,9 +18,11 @@ public:
 
 private:
     unsigned int _count;
+    std::string _id;
 
     PlaneAbstract* createPlane();
     std::string createName();
+    void setId();
 };
 
 #endif // PLANEPRODUCER_H
