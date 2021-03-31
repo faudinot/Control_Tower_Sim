@@ -5,6 +5,7 @@
 ControlTower::ControlTower(Writer& writer) : _writer(writer)
 {
     _count = 0;
+    _is_producer_product = true;
 }
 
 
@@ -29,6 +30,23 @@ void ControlTower::addPlane(PlaneAbstract *plane)
 bool ControlTower::containerHasValues()
 {
     return !_container.isEmpty();
+}
+
+void ControlTower::producerStopProduction()
+{
+    _is_producer_product = false;
+}
+
+bool ControlTower::continueToRun()
+{
+    bool res {true};
+
+    if(_is_producer_product == false && _container.isEmpty() == true)
+    {
+        res = false;
+    }
+
+    return res;
 }
 
 bool ControlTower::containerIsEmpty()
