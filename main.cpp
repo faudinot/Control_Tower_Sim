@@ -2,16 +2,16 @@
 #include <vector>
 #include <functional>
 
-
+#include "Writer.h"
 #include "ControlTower.h"
-#include "Runway.h"
 #include "PlaneProducer.h"
+#include "Runway.h"
 
 
 int main()
 {
     Writer my_writer;
-    ControlTower my_watch_tower(my_writer);
+    ControlTower my_watch_tower;
 
     try
     {

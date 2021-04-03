@@ -4,13 +4,14 @@
 
 PlaneCommercial::PlaneCommercial(const std::string& name) : PlaneAbstract(), _type(Type_Plane::COMMERCIAL)
 {
+    _name = name;
     RandomGeneratorInt random_number{1, 100};
     _passengers_count = random_number();
-    _name = name;
 }
 
 PlaneCommercial::~PlaneCommercial()
 {
+
 }
 
 std::string PlaneCommercial::getInfo()

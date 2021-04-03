@@ -14,7 +14,6 @@ PlaneContainer::~PlaneContainer()
 
 void PlaneContainer::addPlane(PlaneAbstract* plane)
 {
-
     _container.push_back(plane);
 }
 

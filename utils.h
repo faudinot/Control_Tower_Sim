@@ -3,6 +3,11 @@
 
 #include <random>
 
+const unsigned int MAX_PLANES = 30;
+const unsigned int TIME_PER_PASSENGER = 100;
+const unsigned int TIME_PER_MERCHANDISE = 50;
+
+
 enum class Type_Plane
 {
     COMMERCIAL = 0,
@@ -10,10 +15,6 @@ enum class Type_Plane
     MAX
 };
 
-
-const unsigned int MAX_PLANES = 30;
-const unsigned int TIME_PER_PASSENGER = 100;
-const unsigned int TIME_PER_MERCHANDISE = 50;
 
 class RandomGeneratorInt
 {

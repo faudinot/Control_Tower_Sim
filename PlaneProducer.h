@@ -6,8 +6,10 @@
 #include "PlaneAbstract.h"
 #include "utils.h"
 
+
 class ControlTower;
 class Writer;
+
 
 class PlaneProducer
 {
@@ -23,6 +25,7 @@ private:
     PlaneAbstract* createPlane();
     std::string createName();
     void setId();
+    void waitBeforeToContinue(Writer& writer);
 };
 
 #endif // PLANEPRODUCER_H

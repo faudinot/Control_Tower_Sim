@@ -31,14 +31,7 @@ void PlaneProducer::operator()(ControlTower& control_tower, Writer& writer)
             writer.writeMessageOnCout(sstring.str());
         }
 
-        RandomGeneratorInt randomInt{500, 999};
-        const int time_to_wait = randomInt();
-
-        std::stringstream sstring;
-        sstring << _id << " time to wait : " << time_to_wait << "\tCount : " << _count;
-        writer.writeMessageOnCout(sstring.str());
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(time_to_wait));
+       waitBeforeToContinue(writer);
     }
 
     if(_count >= MAX_PLANES)
@@ -103,6 +96,18 @@ void PlaneProducer::setId()
     std::stringstream sstring;
     sstring << "Producer " << std::this_thread::get_id();
     _id = sstring.str();
+}
+
+void PlaneProducer::waitBeforeToContinue(Writer &writer)
+{
+    RandomGeneratorInt randomInt{500, 999};
+    const int time_to_wait = randomInt();
+
+    std::stringstream sstring;
+    sstring << _id << " time to wait : " << time_to_wait << "\tCount : " << _count;
+    writer.writeMessageOnCout(sstring.str());
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(time_to_wait));
 }
 
 

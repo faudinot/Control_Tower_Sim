@@ -40,15 +40,7 @@ void Runway::operator()(ControlTower& control_tower, Writer& writer)
 
     if(control_tower.continueToRun() == false)
     {
-        std::stringstream sstring;
-        sstring << "\n----- " << _id  << " is closed. -----\n";
-        sstring << _id << " processed " << _plane_consumed << " planes.";
-        for(auto info : _planes_info)
-        {
-            sstring << "\n\t" << info;
-        }
-        sstring << "\n";
-        writer.writeMessageOnCout(sstring.str());
+        displayReport(writer);
     }
 }
 
@@ -59,4 +51,17 @@ void Runway::setId()
     std::stringstream sstring;
     sstring << "Runway " << std::this_thread::get_id();
     _id = sstring.str();
+}
+
+void Runway::displayReport(Writer &writer)
+{
+    std::stringstream sstring;
+    sstring << "\n----- " << _id  << " is closed. -----\n";
+    sstring << _id << " processed " << _plane_consumed << " planes.";
+    for(auto info : _planes_info)
+    {
+        sstring << "\n\t" << info;
+    }
+    sstring << "\n";
+    writer.writeMessageOnCout(sstring.str());
 }

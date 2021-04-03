@@ -4,8 +4,10 @@
 #include <string>
 #include <vector>
 
+
 class ControlTower;
 class Writer;
+
 
 class Runway
 {
@@ -20,6 +22,7 @@ private:
     std::vector<std::string> _planes_info;
 
     void setId();
+    void displayReport(Writer& writer);
 };
 
 #endif // RUNWAY_H
