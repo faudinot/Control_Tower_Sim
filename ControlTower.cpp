@@ -2,7 +2,7 @@
 
 #include "utils.h"
 
-ControlTower::ControlTower(Writer& writer) : _writer(writer)
+ControlTower::ControlTower()
 {
     _count = 0;
     _is_producer_product = true;
@@ -52,17 +52,5 @@ bool ControlTower::continueToRun()
 bool ControlTower::containerIsEmpty()
 {
     return _container.isEmpty();
-}
-
-bool ControlTower::isMaxCountReached()
-{
-    bool res {false};
-
-    if(_count > MAX_PLANES)
-    {
-        res = true;
-    }
-
-    return res;
 }
 

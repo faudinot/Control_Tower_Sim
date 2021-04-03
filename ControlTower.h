@@ -5,14 +5,13 @@
 #include <condition_variable>
 
 #include "PlaneContainer.h"
-#include "Writer.h"
 
 class PlaneAbstract;
 
 class ControlTower
 {
 public:
-    ControlTower(Writer& writer);
+    ControlTower();
 
     PlaneAbstract* getPlane();
     void addPlane(PlaneAbstract* plane);
@@ -27,10 +26,6 @@ private:
     std::mutex _mutex;
     std::condition_variable _condition;
     PlaneContainer _container;
-    Writer& _writer;
-
-    bool isMaxCountReached();
-
 };
 
 #endif // CONTROLTOWER_H
